@@ -9,7 +9,7 @@ Measured on one Spark on 2026-11-23, the day the model came out:
 | | value |
 |---|---|
 | Script | `launch.sh` |
-| Context per request | **262,144** (the model's full window) |
+| Context per request | **262,144** (the model's full window; see the long-prompt note below) |
 | KV pool | **1,790,211 tokens** (6.83x full-length requests at once) |
 | Weights in memory | 72.79 GiB |
 | MemAvailable while serving | about 14 to 19 GiB |
@@ -23,6 +23,8 @@ Measured on one Spark on 2026-11-23, the day the model came out:
 | Decode during the eval | 40.2 tok/s |
 
 > **Unified-memory warning.** On a DGX Spark the GPU and the operating system share the same 121.6 GiB. With this launcher about 14 to 19 GiB stays available to the OS. Do not run another large model, a big build or an image/video generation job next to it. An out-of-memory on GB10 can hang the whole box until a power cycle.
+
+> **Long prompts: measured limit so far.** Prompts up to about 33K tokens ran cleanly (TTFT 13 s). A single ~228K-token prompt pushed host MemAvailable down to 5.67 GiB during prefill. On our box two idle ComfyUI servers were also resident, and our memory guard (6 GiB floor) stopped the container. The KV pool itself has room (1.79M tokens); the pressure comes from prefill transients on top of it. Until a full-length prompt is verified on a clean box, for prompts past ~128K either keep the Spark otherwise empty, or lower `UTIL` (for example `UTIL=0.75 ./launch.sh`), or cap the window (`MAXLEN=131072 ./launch.sh`).
 
 ## 1. The model
 
@@ -183,6 +185,7 @@ Everything else passed, including all 6 safety scenarios, all 5 refusal-calibrat
 - **FlashInfer autotune messages about skipped tactics:** on GB10 (sm_121) the fused-MoE autotune skips two unsupported tactics per GEMM. Harmless.
 - **The box gets slow or swaps:** something else is using memory. Stop it, or lower `UTIL` (for example `UTIL=0.75 ./launch.sh`), which shrinks the KV pool.
 - **You want a smaller footprint:** lower `MAXLEN` does not save memory by itself (the pool is sized by `UTIL`). Lower `UTIL` instead.
+- **The box runs out of memory on a very long prompt (200K+):** see the long-prompt note at the top. Lower `UTIL`, cap `MAXLEN`, or stop everything else on the Spark first.
 
 ## 11. Files
 
