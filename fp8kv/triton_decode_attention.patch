@@ -1,0 +1,55 @@
+--- a/vllm/v1/attention/ops/triton_decode_attention.py
++++ b/vllm/v1/attention/ops/triton_decode_attention.py
+@@ -45,6 +45,33 @@
+ from vllm.triton_utils import tl, triton
+ 
+ is_hip_ = current_platform.is_rocm()
++
++# [fp8fix 2026-11-23] helpers for the FP8-KV shared-memory fix below.
++import functools
++import os
++
++_FP8FIX_DTYPES = tuple(
++    getattr(torch, n)
++    for n in ("float8_e4m3fn", "float8_e5m2", "float8_e4m3fnuz", "float8_e5m2fnuz")
++    if hasattr(torch, n)
++)
++
++
++def _fp8fix_is_fp8(t) -> bool:
++    return getattr(t, "dtype", None) in _FP8FIX_DTYPES
++
++
++@functools.cache
++def _fp8fix_small_smem() -> bool:
++    try:
++        props = torch.cuda.get_device_properties(torch.cuda.current_device())
++        smem = getattr(props, "shared_memory_per_block_optin", 0)
++        if smem:
++            return smem < 110 * 1024
++        return props.major == 12 or (props.major, props.minor) in ((8, 6), (8, 9))
++    except Exception:
++        return False
++
+ 
+ logger = logging.getLogger(__name__)
+ 
+@@ -598,7 +625,18 @@
+         # Avoid shared memory overflow on NVIDIA when BLOCK_DMODEL is large
+         # like non-MLA D_QK=576, BLOCK_DMODEL=1024, BLOCK_H=16
+         # exceeds 101376 bytes limit
++        num_stages = 1
++    elif not is_hip_ and _fp8fix_is_fp8(k_buffer) and _fp8fix_small_smem():
++        # [fp8fix 2026-11-23] FP8 KV on 99 KB-smem parts (GB10 sm_121, sm_120,
++        # sm_89, sm_86): the fp8 tile plus its bf16 dequant copies need
++        # 102400 B at num_stages=2 > 101376 B limit. One stage fits.
+         num_stages = 1
++    _ns = os.environ.get("FP8FIX_MLA_NUM_STAGES")
++    if _ns and not is_hip_ and _fp8fix_is_fp8(k_buffer):
++        num_stages = int(_ns)
++    _bn = os.environ.get("FP8FIX_MLA_BLOCK_N")
++    if _bn and not is_hip_ and _fp8fix_is_fp8(k_buffer):
++        BLOCK = int(_bn)
+ 
+     return grid, dict(
+         Q=q,

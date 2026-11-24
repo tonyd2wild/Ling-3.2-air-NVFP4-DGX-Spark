@@ -1,0 +1,36 @@
+--- a/vllm/v1/worker/extensible_kv_cache.py
++++ b/vllm/v1/worker/extensible_kv_cache.py
+@@ -2,6 +2,7 @@
+ # SPDX-FileCopyrightText: Copyright contributors to the vLLM project
+ """KV cache backing allocation that grows after warmup."""
+ 
++import os
+ import copy
+ import gc
+ from bisect import bisect_right
+@@ -696,6 +697,25 @@
+         - KV_CACHE_NON_TORCH_RESERVE_BYTES
+     )
+     torch_memory_limit = torch.accelerator.memory_reserved(device) + max(left_free, 0)
++    # [fp8fix 2026-11-23] Optional hard cap on the growth of the torch caching
++    # allocator past its post-warmup reservation. Stock code lets torch grow into
++    # ALL memory left free after the KV cache (minus 0.5 GiB). On a unified-memory
++    # GB10 a long prefill then fragments the allocator into system RAM until the
++    # host memory guard fires. At the cap torch frees cached blocks and retries.
++    _cap_gib = os.environ.get("FP8FIX_TORCH_GROWTH_GIB")
++    if _cap_gib:
++        _capped = torch.accelerator.memory_reserved(device) + int(
++            float(_cap_gib) * (1 << 30)
++        )
++        if _capped < torch_memory_limit:
++            logger.info(
++                "[fp8fix] capping torch reservation at %s GiB (was %s GiB): "
++                "post-warmup reservation + FP8FIX_TORCH_GROWTH_GIB=%s",
++                format_gib(_capped),
++                format_gib(torch_memory_limit),
++                _cap_gib,
++            )
++            torch_memory_limit = _capped
+     kv_cache.set_torch_memory_limit(torch_memory_limit)
+     logger.info(
+         "Memory after warmup: %s GiB free, %s GiB committed to the KV cache, "

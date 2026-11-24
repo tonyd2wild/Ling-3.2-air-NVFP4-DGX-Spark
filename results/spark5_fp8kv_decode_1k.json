@@ -1,0 +1,32 @@
+{
+  "base": "http://localhost:8140",
+  "model": "ling-3.2-air",
+  "label": "FINAL fp8 kv 0.765 cap10",
+  "chars_per_token": 4.27,
+  "max_tokens": 512,
+  "time": "2026-11-24 04:54:30 UTC",
+  "results": [
+    {
+      "prompt_tokens": 1088,
+      "completion_tokens": 512,
+      "ttft_s": 0.5228769779205322,
+      "prefill_tok_s": 2080.795380066162,
+      "decode_tok_s": 35.772072565878446,
+      "wall_s": 14.814752340316772,
+      "chunks": 223,
+      "spec_metrics_delta": {
+        "vllm:spec_decode_num_drafts_total": 222.0,
+        "vllm:spec_decode_num_draft_tokens_total": 666.0,
+        "vllm:spec_decode_num_accepted_tokens_total": 291.0,
+        "vllm:spec_decode_num_verified_tokens_total": 666.0,
+        "vllm:spec_decode_num_accepted_tokens_per_pos_total": 291.0,
+        "vllm:spec_decode_num_verified_tokens_per_pos_total": 666.0
+      },
+      "mtp_acceptance_rate": 0.4369369369369369,
+      "mtp_mean_accept_len": 2.3108108108108105,
+      "target_tokens": 1000,
+      "label": "FINAL fp8 kv 0.765 cap10",
+      "text_head": "The text, an excerpt from a larger work, presents a blend of historical anecdote, scientific inquiry, and personal reflection, all delivered in a tone that is at once erudite, skeptical, and quietly reverent. The passage opens with a brief, almost poetic allusion to the ancient and timeless nature o"
+    }
+  ]
+}
