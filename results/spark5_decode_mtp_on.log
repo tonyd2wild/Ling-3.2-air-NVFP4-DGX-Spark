@@ -1,0 +1,6 @@
+calibration: 4715 tokens for 20134 chars -> 4.270 chars/token
+   1000 target | prompt    1005 | out  512 | TTFT    0.49 s | prefill     2037 tok/s | decode   36.0 tok/s  MTP accept 42.0%  mean len 2.26
+   1000 target | prompt    1106 | out  512 | TTFT    0.51 s | prefill     2184 tok/s | decode   36.5 tok/s  MTP accept 43.9%  mean len 2.32
+  32000 target | prompt   32517 | out  512 | TTFT   13.01 s | prefill     2499 tok/s | decode   32.3 tok/s  MTP accept 38.8%  mean len 2.17
+  32000 target | prompt   33600 | out  512 | TTFT   13.34 s | prefill     2518 tok/s | decode   30.9 tok/s  MTP accept 40.7%  mean len 2.22
+saved results/spark5_decode_mtp_on.json

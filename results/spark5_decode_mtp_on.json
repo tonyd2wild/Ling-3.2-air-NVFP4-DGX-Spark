@@ -1,0 +1,98 @@
+{
+  "base": "http://localhost:8140",
+  "model": "ling-3.2-air",
+  "label": "spark5 nvfp4 vllm mtp3",
+  "chars_per_token": 4.270201484623542,
+  "max_tokens": 512,
+  "time": "2026-11-24 00:49:21 UTC",
+  "results": [
+    {
+      "prompt_tokens": 1005,
+      "completion_tokens": 512,
+      "ttft_s": 0.4932706356048584,
+      "prefill_tok_s": 2037.4210979894408,
+      "decode_tok_s": 35.987727474111054,
+      "wall_s": 14.704564332962036,
+      "chunks": 227,
+      "spec_metrics_delta": {
+        "vllm:spec_decode_num_drafts_total": 226.0,
+        "vllm:spec_decode_num_draft_tokens_total": 678.0,
+        "vllm:spec_decode_num_accepted_tokens_total": 285.0,
+        "vllm:spec_decode_num_verified_tokens_total": 678.0,
+        "vllm:spec_decode_num_accepted_tokens_per_pos_total": 285.0,
+        "vllm:spec_decode_num_verified_tokens_per_pos_total": 678.0
+      },
+      "mtp_acceptance_rate": 0.42035398230088494,
+      "mtp_mean_accept_len": 2.2610619469026547,
+      "target_tokens": 1000,
+      "label": "spark5 nvfp4 vllm mtp3",
+      "text_head": "The passage is a segment from Jane Austen\u2019s *Pride and Prejudice*, depicting the conclusion of Elizabeth Bennet\u2019s visit to her friend Charlotte Lucas at Hunsford Parsonage. The scene centers on the interaction between Elizabeth, Charlotte, and Mr. Collins as Elizabeth prepares to depart. Mr. Collins"
+    },
+    {
+      "prompt_tokens": 1106,
+      "completion_tokens": 512,
+      "ttft_s": 0.506493330001831,
+      "prefill_tok_s": 2183.6417865483077,
+      "decode_tok_s": 36.52385173767949,
+      "wall_s": 14.50384521484375,
+      "chunks": 222,
+      "spec_metrics_delta": {
+        "vllm:spec_decode_num_drafts_total": 221.0,
+        "vllm:spec_decode_num_draft_tokens_total": 663.0,
+        "vllm:spec_decode_num_accepted_tokens_total": 291.0,
+        "vllm:spec_decode_num_verified_tokens_total": 663.0,
+        "vllm:spec_decode_num_accepted_tokens_per_pos_total": 291.0,
+        "vllm:spec_decode_num_verified_tokens_per_pos_total": 663.0
+      },
+      "mtp_acceptance_rate": 0.43891402714932126,
+      "mtp_mean_accept_len": 2.3167420814479636,
+      "target_tokens": 1000,
+      "label": "spark5 nvfp4 vllm mtp3",
+      "text_head": "The text presented is an excerpt from Herman Melville\u2019s *Moby-Dick*, comprising two chapters that shift between the human rituals of whaling and the industrial apparatus of the ship. The first chapter, titled \u201cThe Cassock,\u201d centers on a peculiar piece of gear and the sailor who uses it, while the se"
+    },
+    {
+      "prompt_tokens": 32517,
+      "completion_tokens": 512,
+      "ttft_s": 13.013539791107178,
+      "prefill_tok_s": 2498.7052348524376,
+      "decode_tok_s": 32.28297942729683,
+      "wall_s": 28.84758424758911,
+      "chunks": 237,
+      "spec_metrics_delta": {
+        "vllm:spec_decode_num_drafts_total": 236.0,
+        "vllm:spec_decode_num_draft_tokens_total": 708.0,
+        "vllm:spec_decode_num_accepted_tokens_total": 275.0,
+        "vllm:spec_decode_num_verified_tokens_total": 708.0,
+        "vllm:spec_decode_num_accepted_tokens_per_pos_total": 275.0,
+        "vllm:spec_decode_num_verified_tokens_per_pos_total": 708.0
+      },
+      "mtp_acceptance_rate": 0.3884180790960452,
+      "mtp_mean_accept_len": 2.165254237288136,
+      "target_tokens": 32000,
+      "label": "spark5 nvfp4 vllm mtp3",
+      "text_head": "This passage from Jane Austen\u2019s *Pride and Prejudice* covers a series of emotionally and socially significant events, centering on Elizabeth Bennet, her sister Jane, and their family\u2019s interactions with the Bingley, Darcy, Collins, and Lucas families. The tone is observant, witty, and sharply ironic"
+    },
+    {
+      "prompt_tokens": 33600,
+      "completion_tokens": 512,
+      "ttft_s": 13.3448805809021,
+      "prefill_tok_s": 2517.8194586533104,
+      "decode_tok_s": 30.926122633356346,
+      "wall_s": 29.875466346740723,
+      "chunks": 234,
+      "spec_metrics_delta": {
+        "vllm:spec_decode_num_drafts_total": 304.0,
+        "vllm:spec_decode_num_draft_tokens_total": 912.0,
+        "vllm:spec_decode_num_accepted_tokens_total": 371.0,
+        "vllm:spec_decode_num_verified_tokens_total": 912.0,
+        "vllm:spec_decode_num_accepted_tokens_per_pos_total": 371.0,
+        "vllm:spec_decode_num_verified_tokens_per_pos_total": 912.0
+      },
+      "mtp_acceptance_rate": 0.4067982456140351,
+      "mtp_mean_accept_len": 2.2203947368421053,
+      "target_tokens": 32000,
+      "label": "spark5 nvfp4 vllm mtp3",
+      "text_head": "The text provided is an excerpt from Jane Austen\u2019s *Pride and Prejudice*, covering the early chapters of the novel, and it centers on the Bennet family, their social circle, and the arrival of two wealthy and socially prominent gentlemen: Mr. Bingley and his friend Mr. Darcy. The tone is satirical, "
+    }
+  ]
+}
